@@ -1,10 +1,12 @@
 from PIL import Image
 from io import BytesIO
 import numpy as np
-
 import torch
 import requests
 from torchvision import transforms, models
+import pandas as pd
+from sklearn.decomposition import PCA
+import hdbscan
 
 
 def load_image(img_path, max_size=400, shape=None):
@@ -136,7 +138,7 @@ def gram_matrix(tensor):
     return gram
 
 
-def PCA(embedding, n_components):
+def reduce_dimension(embedding, n_components):
     """
     Principle component analysis.
 
