@@ -115,6 +115,7 @@ def get_features(image, model, layers=None):
                     
     return features
 
+
 def gram_matrix(tensor):
     """
     Calculate the Gram Matrix of a given tensor.
@@ -132,4 +133,36 @@ def gram_matrix(tensor):
     x = tensor.view(d, -1)
     gram = torch.mm(x, torch.transpose(x, 0, 1))
     
-    return gram 
+    return gram
+
+
+def PCA(embedding, n_components):
+    """
+    Principle component analysis.
+
+    Parameters:
+        embedding   (Array of list):The embeddings to be processed.
+        n_components(int):          The number of features generated.
+    Return:
+        Principle components.
+    """
+    x = pd.DataFrame(embedding)
+    pca = PCA(n_components=n_components)
+    return pca.fit_transform(x)
+
+
+def HDBSCAN(embedding, min_cluster_size, min_samples, alpha):
+    """
+    HDBSCAN Clustering.
+
+    Parameters:
+        embedding        (Array of list): The embeddings to be processed.
+        min_cluster_size (int):           The minmum number of observations that could form a cluster.
+        min_samples      (int):           The distance for group splitting.
+        alpha   
+    Return:
+        Cluster object.
+    """
+    clusters = hdbscan.HDBSCAN(min_cluster_size=min_cluster_size, \
+        min_samples=min_samples, alpha=alpha).fit(embedding)
+    return clusters
